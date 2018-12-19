@@ -16,3 +16,5 @@ What is Acid Property
 Have you created any ER diagram,please explain one.
 What is normalization and type of normalization.Is Normalization helpfull for all scenario.
 how to restrict some user access on perticular table.
+What are the isolation level in sql server.can you give scenario to explain all 5 isolation level.
+what are the locking in sql server.how many types of locks are available.can you give one use case of locks in your project.
