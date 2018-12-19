@@ -1,0 +1,67 @@
+Building upon solid IT project experience a Data
+Insight Consultant will work with the team, internal collaborators and external
+partners, to assist our customers in:
+
+Implementing expected Data Security, high availability and scalability of
+deployed databases.
+
+Build, design and develop Corporate Data Platform and Analytics solutions
+using the latest Microsoft products and technologies on premise and in Azure.
+ 
+The delivery of high quality project engagements around Microsoft's SQL
+Server and Business Intelligence (BI) solutions in various client environments.
+ 
+Design and implementation of data warehousing solutions based on Microsoft
+SQL Server and related products (SQL Server 2014/2016, PDW/APS, SQL Azure,
+SSRS, SSAS, SSIS).
+
+Performance assessments, optimization and enhancements of deployed Microsoft
+Data Warehouse solutions.
+
+The role requires deep knowledge in designing, planning, testing and deploying
+data warehouse and reporting solutions including the following:
+
+
+Experience in projects involving database migration to SQL Server, developing
+with SQL Server, implementing Data Models, Microsoft Business Intelligence (BI)
+solutions, reporting dashboards, Self-Service BI and Power BI, Big Data,
+Advanced Analytics
+
+Experience in enhancing Data Warehouse solutions using multiple database
+technologies
+ 
+Experience in large database solutions, on premises, cloud and hybrid
+implementations
+
+Strong experience in database replication, performance and security tuning
+
+Working knowledge of specialized tools and solution providers whether they be
+Microsoft partners or competitors
+
+Knowledge of full application life cycle design tools and methodologies
+
+Strong, demonstrated consulting skills
+
+Experience driving presales opportunities, leading customer
+workshops/briefings
+
+Additionally, experience in any of the following will be considered favorably:
+
+Big Data stack: MapReduce, Hadoop, Sqoop, Spark
+
+ETL technologies: Talend, Pentaho, Informatica, etc
+ 
+
+DW: Relational (Oracle, Teradata, Netteza, SAP HANA), columnar (RedShift,
+Vertica), noSQL (MongoDB, Redis, Cassandra - key-value stores, graph databases,
+RDF triple stores)
+ 
+
+Languages: Java, Python, R, F#, C#
+ 
+
+Analytical tools, languages, or libraries: SAS, SPSS, R, Mahout)
+ 
+Know-How in the area of exploratory data analysis
+ 
+Candidates must be fluent in English (spoken and written).

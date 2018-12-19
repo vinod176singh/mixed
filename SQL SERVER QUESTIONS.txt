@@ -1,0 +1,18 @@
+Can you Explain dead lock scenario in SQL
+What is Execution plan and benefit of it.
+Sort vs merge vs hash operation in execution plan
+How to retrive the data from orcle db server to sql server.
+what is the parameter sniffing.
+can you use truncate command inside transaction.
+What is the use on index in sql,how many types of index are available
+what is materialized view in sql.
+meaning of schema binding in view.
+Can you update the table using View.
+What is the CTE in sql server ,can you explain best situation for CTE
+can I call one stored procedure inside other, if Yes: how many level are possible.
+What is @@IDENTITY,SCOPE_IDENTITY,IDENT_CURRENT in SQL SERVER
+Can you explain use of transacion in sql
+What is Acid Property
+Have you created any ER diagram,please explain one.
+What is normalization and type of normalization.Is Normalization helpfull for all scenario.
+how to restrict some user access on perticular table.

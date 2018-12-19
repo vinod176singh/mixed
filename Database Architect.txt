@@ -1,0 +1,30 @@
+Serve as the lead resource responsible for the overall design and development of applications and systems. 
+Define requirements and create architectural specifications. 
+Provide thought leadership to client and internal stakeholders. 
+Serve as the subject matter expert in all phases of design and development; mentor team members as needed. 
+Help ensure projects are delivered successfully, on- time, and within budget.a 
+Skills and Experience You Will Need
+8- 10 years Microsoft SQL Server experience 
+5 years MS SQL Server Administration experience required 
+
+Experience with Performance Tuning and Optimization, using native monitoring and troubleshooting tools 
+Experience with backups, restores and recovery models. 
+Knowledge of High Availability (HA) and Disaster Recovery (DR) options for SQL Server. 
+
+Troubleshoot SQL Server service outages. 
+
+Configure SQL Server monitoring utilities. 
+
+Install and configure new SQL Servers. 
+
+When performance issues arise, determine the most effective way to increase performance including hardware purchases, server configuration changes, or index/ query changes. 
+
+Experience with data management and data processing flowcharting techniques. 
+
+Failover clustering, SAN replication, and other high availability technologies. 
+
+SQL Server merge, peer to peer, or transactional replication. 
+
+Technical documentation skills. 
+
+Good interpersonal, written, and oral communication skills.
