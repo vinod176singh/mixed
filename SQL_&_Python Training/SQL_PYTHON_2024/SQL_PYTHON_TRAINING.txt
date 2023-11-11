@@ -1,0 +1,102 @@
+Week 1: Snowflake SQL Fundamentals
+
+Day 1: Orientation and Setup
+Provide access to Snowflake environment.
+Explain the importance of Snowflake SQL in your organization.
+
+Day 2-3: Snowflake Overview
+Introduction to Snowflake architecture and features.
+Create a Snowflake account, database, and warehouse.
+Explore Snowflake web interface.
+
+Day 4-5: SQL Basics
+Basics of SQL syntax (SELECT, FROM, WHERE, etc.).
+Writing simple SQL queries.
+Retrieving data from Snowflake tables.
+
+Day 6-7: Data Modeling in Snowflake
+Introduction to schema design in Snowflake.
+Creating tables and defining data types.
+Understanding data warehousing concepts.
+
+Week 2: Advanced Snowflake SQL
+
+Day 8-9: Advanced SQL Queries
+JOIN operations (INNER, LEFT, RIGHT, FULL, etc.).
+Subqueries and correlated subqueries.
+GROUP BY and HAVING clauses.
+
+Day 10-11: Data Loading and Transformation
+Loading data into Snowflake (COPY, INSERT, etc.).
+Data extraction and transformation techniques.
+Working with Snowflake data types and functions.
+
+Day 12-13: Security and Best Practices
+Snowflake security features (users, roles, privileges).
+Best practices for query optimization.
+Review common pitfalls and how to avoid them.
+
+
+Week 3: Introduction to Python Programming
+Day 1: Orientation and Setup
+Provide access to a Python development environment.
+Explain the importance of Python in data analysis.
+
+Day 2-3: Python Basics
+Introduction to Python syntax and data types.
+Variables, operators, and basic input/output.
+Writing and running Python scripts.
+
+Day 4-5: Control Flow and Functions
+Conditional statements (if, elif, else).
+Loops (for and while).
+Functions, arguments, and return values.
+
+Day 6-7: Data Structures in Python
+Lists, tuples, and dictionaries.
+Basic operations on data structures.
+Exercises and small projects to apply Python concepts.
+
+Week 4: Introduction to Snowpark and Data Manipulation with Pandas
+
+Day 1: Orientation and Setup
+Welcome the new joiner.
+Provide access to Snowflake environment.
+Explain the importance of Snowpark, Pandas, and PySpark.
+
+Day 2-3: Snowpark Fundamentals
+Introduction to Snowpark and its integration with Snowflake.
+Writing basic Snowpark scripts.
+Executing Snowpark scripts in Snowflake.
+
+Day 4-5: Pandas Basics
+Introduction to Pandas library for data manipulation.
+Data structures (Series and DataFrame).
+Loading and saving data with Pandas.
+
+Day 6-7: Data Transformation with Pandas
+Data cleaning and preprocessing using Pandas.
+Data filtering, aggregation, and sorting.
+Hands-on exercises with real data.
+
+Week 5: Advanced Data Processing with Pandas and Introduction to PySpark
+
+Day 8-9: Advanced Pandas Operations
+Advanced data manipulation with Pandas.
+Handling missing data and outliers.
+Merging and joining data frames.
+
+Day 10-11: Introduction to PySpark
+Basics of PySpark and Spark architecture.
+Setting up a PySpark environment.
+Transformations and actions in PySpark.
+
+Day 12-13: Data Analysis with PySpark
+Data analysis and manipulation using PySpark.
+Working with RDDs and DataFrames.
+Spark SQL for querying data.
+
+Day 14: Capstone Project
+Apply knowledge to a real-world project using Snowpark, Pandas, and PySpark.
+Perform data analysis and transformation on a sample dataset.
+Create visualizations and insights.
