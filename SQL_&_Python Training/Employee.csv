@@ -1,0 +1,26 @@
+Emp_Id,Emp_Name,salary,zip,State,Mobile,Email
+1,Ajay,50000,400057,MAHARASHTRA,9949789567,ajay.mujella@pharmaace.com
+2,Yogesh,40000,400057,MAHARASHTRA,8827647040,yogesh.tiwari@pharmaace.com
+3,Shivam,62457,411057,MAHARASHTRA,7018322428,shivam.sinha@pharmaace.com
+4,Santosh,60000,40057,Madhya Pradesh,9712945175,santosh.parmar@pharmaace.com
+5,Srinidhi,45000,507123,telangana,9441793811,srinidhi.pachipala@pharmaace.com
+6,Lakshya,80000,244001,Kerala,8979439160,Lakshya.Agarwal@pharmaace.com
+7,Rohit,90000,242424,TAMIL NADU,7639042555,Rohit.sivakumar@pharmaace.com
+8,Vijay,30000,600078,TAMIL NADU,9884196518,Vijay.Mohan@pharmaace.com
+9,Raamesh,55000,400057,MAHARASHTRA,9876543210,xyz.xyz@PharmaACE.com
+10,Aswin,35000,615307,TAMIL NADU,9677470437,aswin.chandrasekaran@pharmaace.com
+11,Akash,100000,444604,MAHARASHTRA,9359784177,Akash.Dighade.pharmaace.com
+12,Dhananjay,48000,440017,MAHARASHTRA,9172163570,dn851822@gmail.com
+13,Shivani,66000,829112,Jharkhand,9470570124,shivansi.kishor@pharmaace.com
+14, Giridhar Naidu,43000,518005,Andhra Pradesh,9398091097,mutagiridharnaidu@gmail.com
+15,pradeep,78000,502032,Telangana,9948579208,Pradeep.Perikala@PharmaACE.com
+16,Satheeshkumar,47000,626112,TAMIL NADU,7598056343,Satheeshkumar.Malkaj@pharmaace.com
+17,Vishnu,51000,530009,Andhra Pradesh,9381432204,vishnuvenkat.393@gmail.com
+18,sainath,73000,585403,karnataka,8884979828,sainath.gadgeppa@pharmaAce.com
+19,Tharun,59000,517502,ANDHRA PRADESH,8919236812,Tharunkumar.Galla@PharmaACE.com
+20,dias,41000,680511,Kerala,7558079895,dias.xavy@pharmaace.com
+21,Karan,53300,700023,WEST BENGAL,9073111274,ksksingh@gmail.com
+22,Divyanshu,61200,229001,UTTAR PRADESH,9382719434,Divyanshu.bajpai@PharmaAce.com
+23,Dhanush,64300,603501,TAMIL NADU,6383632357,Dhanush.Kumaran@PharmaACE.com
+24,Saurav,67890,493558,CHHATTISGARH,7389011591,Saurav.Shukla@PharmaACE.com
+25,Mithilesh,52300,274406,UTTAR PRADESH,8400222042,mithilesh@gmail.com
