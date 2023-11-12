@@ -1,15 +1,5 @@
 ms-sql server
 
-merge target_table  as t
-using source_table as s
-on s.id=
-when matched with target_table
-update target_table
-set abc=
-when not matched with target
-insert to
-
-
 MERGE TargetProducts AS Target
 USING SourceProducts	AS Source
 ON Source.ProductID = Target.ProductID
