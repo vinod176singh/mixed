@@ -17,9 +17,17 @@ integration
 
 
 
-role based 
+role based user access assignemnt
 
-create task name_of_task
+create or replace task name_of_task
+warehouse =sales_warehouse
+schedule='6 minutes'
+comment='run procedure'
+as
+call  usp_get_process_data();
+
+alter task name_of_task resume;
+
 
 
 
