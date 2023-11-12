@@ -1,0 +1,10 @@
+
+
+def readdata(files):
+    for filename in files:
+        df = pd.read_csv('path/'+filename)
+        df['filename']=filename
+        df['inserted_date']=datetime.datetime.date()
+    
+    df.CreateOrReplaceTemp('src_table')
+    curr.execute_sql('insert into target_table  select * from src_table')

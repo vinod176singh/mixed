@@ -1,0 +1,26 @@
+with dups_emp as
+(select id ,row_number() over(partition by id order by id desc)as rownumber from emp)
+delete from dups_emp where rownumber >1
+
+1  1
+1  2
+1  3
+2  1
+2  2
+2  2
+
+
+
+Order_monthly 
+id sales sales_date
+
+
+
+
+ 
+2015 as D2015,2016 as D2016,2017 as D2017,2018 as D2018,2019 as as D2019,2020 as D2020,2021  as D2021,2022  as D20222
+
+
+
+
+

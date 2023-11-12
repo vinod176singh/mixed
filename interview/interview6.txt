@@ -1,0 +1,20 @@
+Aggregate table by user id and event name per day. 
+Here we wanted that if a user has 3 events on a day 
+user1 event1
+user1 event2
+user1 event3
+ 
+ 
+we need  the output should be 
+user1  event1, event2, event3
+
+Select * From (
+select user,event from Event )
+pivot(max(event) for event in (['event1'],['event2'],['event3'])) as pvt
+
+customer id, booking id, booking time, amount
+
+with cust_latest_booking (
+select customer id, booking id, booking time, amount,row_number(partition by customer id order by booking time desc) as rnk  from booking)
+select customer id, booking id, booking time, amount from cust_latest_booking
+where rnk=1

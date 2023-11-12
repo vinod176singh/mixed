@@ -1,0 +1,14 @@
+emp_sal
+Output : Employee ID, First Name, Last Name, Department, Salary and Average Salary
+
+
+
+select Employee ID, First Name, Last Name,department,salary,Average_Salary from emp_sal a
+inner join (
+select Department,avg(salary) as Average_Salary from emp_sal  group by department
+) b on a.department=b.department;
+
+
+select  Employee ID, First Name, Last Name, Department, Salary,avg(salary) over(partion by department) as Average_Salary from emp_sal;
+
+with emp_Sal_

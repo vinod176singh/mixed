@@ -1,0 +1,25 @@
+create or replace procedure abc.usp_get_data()
+return da
+language sql
+
+as 
+
+$$
+
+
+$$
+
+create file format csv_for;
+
+copy into abc.employee
+from 's3 path'
+integration 
+
+
+
+role based 
+
+create task name_of_task
+
+
+

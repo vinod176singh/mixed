@@ -1,0 +1,20 @@
+select linenumber,sum(case when startdate=2015 then 1
+            else 0 end) as D2015,
+       sum(case when startdate=2016 then 1
+            else 0 end) as D2016,
+       sum(case when startdate=2017 then 1
+            else 0 end) as D2017,            
+       sum(case when startdate=2018 then 1
+            else 0 end) as D2018,
+       sum(case when startdate=2019 then 1
+            else 0 end) as D2019,
+       sum(case when startdate=2020 then 1
+            else 0 end) as D2020,  
+       sum(case when startdate=2021 then 1
+            else 0 end) as D2021,  
+       sum(case when startdate=2022 then 1
+            else 0 end) as D2022         
+             from 
+(SELECT  distinct patientid,linenumber,substring(date_trunc('year',Startdate),1,4) as startdate  FROM rwd_edm_sclc_nonomop.lineoftherapy)
+group by linenumber
+order by 1;

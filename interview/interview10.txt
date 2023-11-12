@@ -1,0 +1,11 @@
+
+
+copy target_tabl_stg1
+from 'path '
+format
+credentials 'access_key;'
+
+insert into org_target_table
+select *,getdate(), target_tabl_stg1
+
+

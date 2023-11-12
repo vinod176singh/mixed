@@ -1,0 +1,134 @@
+employee table
+id,name,salary,managerid
+
+select a.name from 
+(select distinct name,managerid,salary from employee) a inner join 
+(select id ,salary from employee) b    a.id=b.managerid
+where a.salary>b.salary
+
+
+select  e1.name from employee e1 inner join employee e2 on e1.id=e2.managerid
+where a.salary>b.salary
+
+
+logs table
+id and num is the columns
+1  | 1   |
+| 2  | 1  |
+| 3  | 1  |
+| 4  | 2  |
+| 5  | 1  |
+| 6  | 2  |
+| 7  | 2
+
+with logs_cte as (
+select id,num,lead(num,1) over(order by id asc) as lead1 ,lead(num,2) over(order by id asc) as lead2 from logs_table )
+select * from logs_cte where num=lead1 and num=lead2
+
+
+
+
+
+
+
+count total number of digits one ifrom the number
+
+b=13
+
+1,2,3,4,5,6,7,8,9,10,11,12,13
+
+10 ->[1,0]
+output result=6
+
+def count_one_from_given_number(num):
+    output_count=0
+    for i in range(1,num+1):
+        if len(str(i))>1:
+            digit=i.split(i)
+            for j in digit:
+                if j==1:
+                  output_count+=1
+        elif i==1:
+            output_count+=1
+    return output_count
+    
+count_one_from_given_number(13)   
+
+from pyspark.sql import SparkSession
+spark=SparkSession.builder.appName('read_date').getOrCteate()
+df=spark.read.option('sep','|').option('inferSchema',True).('path')
+df.repartition(100)
+df.coalease(100)
+df.mode('overwrite').filetype('parquet').save('data/output_data.parquet')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+            
+            
+        
+    
+    
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

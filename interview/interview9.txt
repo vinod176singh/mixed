@@ -1,0 +1,19 @@
+--emp
+--id name created_ts
+
+;with emp_del AS
+(select *,ROW_NUMBER() over (partition by id order by created_ts desc) as rownumber)
+delete from  emp_del where rownumber>1
+
+
+data 			
+id	 frequency	 label	
+1	Weekly		1/16/2023
+
+select id,case when frequency='Daily' then getdate()-1
+			   when frequency='weekly' and dayofweek(getdate())=0 then cast(dateadd(day,-7,getdate()) as  varchar(10)) ||'-'|| cast (getdate() as varchar(10)) 
+			   when frequency='monthly' then day(date_trunc('MONTH',getdate()))=1 then cast(dateadd(month,-1,getdate()) as  varchar(10)) ||'-'|| cast (getdate() as varchar(10)) 
+			   else ''
+			   end as label
+from data
+

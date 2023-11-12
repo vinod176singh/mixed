@@ -1,0 +1,15 @@
+class A:
+     def say(self):
+           print('In A')
+
+class B(A):
+      def say(self):
+            print('In B')
+      def inherit(self):
+              super.say()
+              self.say()
+
+obj1=A
+obj2=B
+obj2.inherit()
+

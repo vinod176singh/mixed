@@ -1,0 +1,22 @@
+class Employee:
+    get_salary():
+        return 100
+    static get_office_addres():
+        return 
+    
+    
+lst =[1,2,3,3,3,4,4,5]
+a=set(lst)
+print(a)
+
+Id name salary dept
+
+with top_three_Sal as
+(select name ,dept, rank() over(partition by dept order by salary desc) as rnk)
+select dept,name from top_three_Sal where rnk <4;
+
+truncate vs delete
+
+
+
+

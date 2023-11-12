@@ -1,0 +1,8 @@
+big_arr =[1,2,3,4,5,6,3,2,1,2]
+small_arr=[1,2]
+
+
+for a in small_arr:
+    for b in big_arr:
+        if small_arr[a]==big_arr[b]:
+            print('Element found' small_arr[a])   

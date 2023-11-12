@@ -1,0 +1,30 @@
+orderid ,cust_id ,amount
+select cust_id ,sum(amount) as total_amount from order_history
+group by cust_id;
+
+with total_amount_cte as
+(
+select cust_id ,sum(amount) as total_amount from order_history
+group by cust_id
+)
+
+,
+total_amount_cte3 
+as(
+select cust_id,total_amount,rank() over(partition by cust_id order by total_amount desc) as rnk1 from total_amount_cte
+) 
+select * from total_amount_cte3 where rnk1=3
+
+
+with total_amount_cte as
+(
+select cust_id ,rank() over(partition by cust_id order by total_amount desc) as rnk1 from 
+(select cust_id ,sum(amount) as total_amount from order_history group by cust_id)
+)
+select * from total_amount_cte where rnk1=3
+
+
+
+
+
+
