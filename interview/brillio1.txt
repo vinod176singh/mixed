@@ -1,13 +1,13 @@
-create or replace procedure abc.usp_get_data()
-return da
+create or replace procedure usp_get_process_data()
+returns varchar(10)
 language sql
-
-as 
-
+as
+$$
+select 'vinod';
 $$
 
+call  usp_get_process_data();
 
-$$
 
 create file format csv_for;
 
