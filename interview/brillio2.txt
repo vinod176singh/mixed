@@ -1,3 +1,6 @@
+performance improvement in snowflake 
+
+
 ms-sql server
 
 MERGE TargetProducts AS Target
