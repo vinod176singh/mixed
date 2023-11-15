@@ -1,0 +1,39 @@
+sql second highest
+sql department wise second highest salary
+
+
+
+def sort_color_balls(arr):
+    left=0
+    right=len(arr)-1
+    while right>=left:
+        if arr[left]>arr[right]:
+            arr[left],arr[right]=arr[right],arr[left]
+            left+=1
+            right-=1
+        elif arr[left]=arr[right]:
+            left+=1
+        else
+            right-=1
+    return arr
+
+def sort_color_balls_for(arr):
+    left=0
+    right=len(arr)-1
+    for i in range(len(arr)):
+        if arr[i]==0:
+            left=+1
+        elif arr[i]==1 and arr[left]>arr[right]:
+            le
+
+
+    return arr
+
+
+nums=[0,1,2,0,2,1,1,0,0,1]
+result=sort_color_balls(nums)
+print(result)
+
+
+
+

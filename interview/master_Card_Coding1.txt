@@ -1,0 +1,51 @@
+Product|Amount|Country|
++-------+------+-------+
+| Banana|  1000|    USA|
+|Carrots|  1500|    USA|
+|  Beans|  1600|    USA|
+| Orange|  2000|    USA|
+| Orange|  2000|    USA|
+| Banana|   400|  China|
+|Carrots|  1200|  China|
+|  Beans|  1500|  China|
+| Orange|  4000|  China|
+| Banana|  2000| Canada|
+|Carrots|  2000| Canada|
+|  Beans|  2000| Mexico
+
+
+PRODUCT|USA|CHINA|CANADA|MEXICO|TOTAL_SUM
+
+
+select  distinct @county=country from  Order_history
+
+select product,* from 
+(select Product,Amount,Country from Order_history) tbl
+pivot(sum(amount) for country in (@county) pvt;
+
+
+
+
+
+
+daily_data
+  process date   records
+  11/17/2023      700  
+   11/15/2023      100
+   11/14/2023      400
+   11/12/2023      500
+   11/10/2023      600
+   
+   with generate_Date_cte
+   as (
+   select getdate() as process_date
+   union all
+   select dategetdate() as process_date from generate_Date_cte
+   where date_diff('day',process_date,get_date)<8
+   )
+   select distinct b.process_date From daily_data  a right join generate_Date_cte b on a.process_date=b.process_date
+   where a.process_Date is null;
+   
+   
+   
+   
