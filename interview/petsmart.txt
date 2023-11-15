@@ -61,6 +61,11 @@ df.repartition(100)
 df.coalease(100)
 df.mode('overwrite').filetype('parquet').save('data/output_data.parquet')
 
+orderBy vs sort
+coalesce vs repartition
+write data to parquet file
+broadcast vs accumulator
+
 
 
 
