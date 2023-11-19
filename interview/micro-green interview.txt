@@ -1,0 +1,52 @@
+emp:id ,Name 
+vinod 1
+vinod 2
+som
+som
+som
+
+; with emp_cte as (
+select * ,rank() over(partition by name order by name) rnk from emp) 
+delete from emp_cte where rnk >1
+
+emppoyee id name phonenumber
+
+1|x|123,234
+
+1|x|123
+1|x|234
+
+emppoyee id name
+
+phone_numeber
+eid  phone_nemuber
+
+
+Table_a		Table_b
+1		2
+2		0
+0		N
+N		
+		
+	a	b
+	1	N
+	2	2
+	0	0
+	N	N
+	N	N
+
+
+Table -A,B,C
+
+python
+import pandas as pd
+df=pd.read_json("C:/desktop/emp.json")
+df.head()
+df.delete(df['val']='x')
+
+
+logical vs 
+
+physical join
+hash
+nested o(n)
