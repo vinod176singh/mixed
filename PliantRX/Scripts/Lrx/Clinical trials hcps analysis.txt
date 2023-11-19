@@ -1,0 +1,38 @@
+--select diag_cd ,count(distinct rendering_provider_id) as hcps from laad_data.dx_claim where diag_cd in ('V707','Z006')
+--and rendering_provider_id in (select distinct rendering_provider_id  from laad_data.dx_claim  
+--where diag_cd in ('51631','J84112'))
+--and rendering_provider_id in (select distinct rendering_provider_id  from laad_data.rx_claim  d
+--inner join laad_data.products p on d.product_id=p.product_id 
+--and p.mkted_prod_nm in ('ESBRIET','OFEV','PIRFENIDONE')
+--)
+--group by diag_cd ;
+
+
+select diag_cd ,count(distinct rendering_provider_id) as hcps from laad_data.dx_claim where diag_cd in ('V707','Z006')
+and patient_id  in (select distinct patient_id  from laad_data.dx_claim  
+where diag_cd in ('51631','J84112'))
+--and patient_id  in (select distinct patient_id  from laad_data.rx_claim  d
+--inner join laad_data.products p on d.product_id=p.product_id 
+--and p.mkted_prod_nm in ('ESBRIET','OFEV','PIRFENIDONE'))
+group by diag_cd ;
+
+select distinct p2.npi,p2.pri_spcl_desc,p2.first_nm,p2.last_nm,p2.org_nm,p2.addr_line1_txt,p2.addr_line2_txt,p2.st_cd,p2.city_nm,p2.zip,case when d.rendering_provider_id is not null then 1 else 0 end as CTF
+from laad_data.provider p2  
+left join (select distinct rendering_provider_id  from laad_data.dx_claim where diag_cd in ('V707','Z006')) d 
+on p2.provider_id =d.rendering_provider_id
+order by 1;
+
+select distinct rendering_provider_id  from laad_data.dx_claim where diag_cd in ('V707','Z006');
+
+select distinct p2.npi,p2.pri_spcl_desc,p2.first_nm,p2.last_nm,p2.org_nm,p2.addr_line1_txt,p2.addr_line2_txt,p2.st_cd,p2.city_nm,p2.zip,case when d.rendering_provider_id is not null then 1 else 0 end as CTF,
+case when d2.rendering_provider_id is not null then 1 else 0 end as IPF_CTF
+from laad_data.provider p2  
+left join (select distinct rendering_provider_id  from laad_data.dx_claim where diag_cd in ('V707','Z006')) d on p2.provider_id =d.rendering_provider_id
+left join (select distinct rendering_provider_id from laad_data.dx_claim where diag_cd in ('V707','Z006') and 
+patient_id  in (select distinct patient_id  from laad_data.dx_claim  where diag_cd in ('51631','J84112'))) d2 
+on p2.provider_id =d2.rendering_provider_id
+order by 1;
+
+select distinct rendering_provider_id from laad_data.dx_claim where diag_cd in ('V707','Z006') and 
+patient_id  in (select distinct patient_id  from laad_data.dx_claim  where diag_cd in ('51631','J84112'))
+

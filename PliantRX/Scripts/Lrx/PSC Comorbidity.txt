@@ -1,0 +1,49 @@
+SELECT
+    CASE
+        WHEN diag_cd IN (select distinct dx_codes from pharmetrics.comorbid_psc where desc_type='Bile') THEN 'Bile Duct'
+        WHEN diag_cd IN (select distinct dx_codes from pharmetrics.comorbid_psc where desc_type='Liver') THEN 'Liver'
+        WHEN diag_cd IN (select distinct dx_codes from pharmetrics.comorbid_psc where desc_type='Abdominal Pain') THEN 'Abdominal Pain'
+        WHEN diag_cd IN (select distinct dx_codes from pharmetrics.comorbid_psc where desc_type='Metabolic Disorder') THEN 'Metabolic Disorder'
+        WHEN diag_cd IN (select distinct dx_codes from pharmetrics.comorbid_psc where desc_type='UC') THEN 'UC'
+        WHEN diag_cd IN (select distinct dx_codes from pharmetrics.comorbid_psc where desc_type='GERD') THEN 'GERD'
+        WHEN diag_cd IN (select distinct dx_codes from pharmetrics.comorbid_psc where desc_type='Kidney') THEN 'Kidney'
+        WHEN diag_cd IN (select distinct dx_codes from pharmetrics.comorbid_psc where desc_type='Spleen') THEN 'Spleen'
+        WHEN diag_cd IN (select distinct dx_codes from pharmetrics.comorbid_psc where desc_type='Pancreas') THEN 'Pancreas'
+        WHEN diag_cd IN (select distinct dx_codes from pharmetrics.comorbid_psc where desc_type='Pruritis') THEN 'Pruritis' 
+        WHEN diag_cd IN (select distinct dx_codes from pharmetrics.comorbid_psc where desc_type='CD') THEN 'CD'
+        WHEN diag_cd IN (select distinct dx_code from pharmetrics.comorbid_ipf where description='LungTransplant') THEN 'LungTransplant'
+        WHEN diag_cd IN (select distinct dx_code from pharmetrics.comorbid_ipf where description='LungCancer') THEN 'LungCancer'        
+        ELSE 'C'
+        END AS group_label,
+    COUNT(DISTINCT patient_id)
+FROM laad_data.dx_claim
+WHERE patient_id IN (SELECT DISTINCT patient_id FROM laad_data.dx_claim
+                    WHERE diag_cd IN ('5761', 'K8301')
+)
+AND diag_cd <> ''
+GROUP BY group_label;
+
+
+select 
+CASE
+        WHEN diag_cd IN (select distinct dx_codes from pharmetrics.comorbid_psc where desc_type='Bile') THEN 'Bile Duct'
+        WHEN diag_cd IN (select distinct dx_codes from pharmetrics.comorbid_psc where desc_type='Liver') THEN 'Liver'
+        WHEN diag_cd IN (select distinct dx_codes from pharmetrics.comorbid_psc where desc_type='Abdominal Pain') THEN 'Abdominal Pain'
+        WHEN diag_cd IN (select distinct dx_codes from pharmetrics.comorbid_psc where desc_type='Metabolic Disorder') THEN 'Metabolic Disorder'
+        WHEN diag_cd IN (select distinct dx_codes from pharmetrics.comorbid_psc where desc_type='UC') THEN 'UC'
+        WHEN diag_cd IN (select distinct dx_codes from pharmetrics.comorbid_psc where desc_type='GERD') THEN 'GERD'
+        WHEN diag_cd IN (select distinct dx_codes from pharmetrics.comorbid_psc where desc_type='Kidney') THEN 'Kidney'
+        WHEN diag_cd IN (select distinct dx_codes from pharmetrics.comorbid_psc where desc_type='Spleen') THEN 'Spleen'
+        WHEN diag_cd IN (select distinct dx_codes from pharmetrics.comorbid_psc where desc_type='Pancreas') THEN 'Pancreas'
+        WHEN diag_cd IN (select distinct dx_codes from pharmetrics.comorbid_psc where desc_type='Pruritis') THEN 'Pruritis' 
+        WHEN diag_cd IN (select distinct dx_codes from pharmetrics.comorbid_psc where desc_type='CD') THEN 'CD'
+        WHEN diag_cd IN (select distinct dx_code from pharmetrics.comorbid_ipf where description='LungTransplant') THEN 'LungTransplant'
+        WHEN diag_cd IN (select distinct dx_code from pharmetrics.comorbid_ipf where description='LungCancer') THEN 'LungCancer'        
+        ELSE 'C'
+        END AS group_label,
+    COUNT(DISTINCT B.patient_id)
+from (SELECT DISTINCT patient_id,min(svc_dt) as svc_dt FROM laad_data.dx_claim
+WHERE diag_cd IN ('5761', 'K8301') group by 1) A inner join laad_data.dx_claim B on A.patient_id=B.patient_id and B.svc_dt>A.svc_dt
+AND diag_cd <> ''
+GROUP BY group_label;
+

@@ -1,0 +1,73 @@
+drop table if exists  laad_data.ipf_lot;
+create table laad_data.ipf_lot as 
+SELECT
+  patient_id,
+  svc_dt,
+  product,
+  SUM(CASE WHEN (product != prev_product 
+           and day_diff > 28) THEN 1 ELSE 0 END) OVER (PARTITION BY patient_id ORDER BY svc_dt ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)+1 AS lot
+FROM (
+  SELECT
+    patient_id,
+    product,
+    svc_dt,
+    LAG(product) OVER (PARTITION BY patient_id ORDER BY svc_dt) AS prev_product,
+    DATEDIFF(DAY,
+             LAG(svc_dt::DATE) OVER (PARTITION BY patient_id ORDER BY svc_dt),
+             svc_dt::DATE) AS day_diff
+  FROM
+    laad_data.ipf_universe_s3
+  WHERE
+    patient_id = '21400433224' 
+) AS subquery
+ORDER BY 1, 2;
+
+
+drop table if exists  laad_data.ipf_episodes;
+create table laad_data.ipf_episodes as 
+SELECT
+  patient_id,
+  svc_dt,
+  mkted_prod_nm,
+  dos,
+  dense_rank() OVER (PARTITION BY patient_id,mkted_prod_nm ORDER BY grp) AS episodes
+FROM (
+  SELECT
+    patient_id,
+    svc_dt,
+    mkted_prod_nm,
+    days_supply_cnt as dos,
+    ROW_NUMBER() OVER (PARTITION BY patient_id ORDER BY svc_dt) - ROW_NUMBER() OVER (PARTITION BY patient_id, mkted_prod_nm ORDER BY svc_dt) AS grp
+  FROM
+    laad_data.ipf_universe 
+) AS subquery
+ORDER BY 1, 2;
+
+-- change the drug name in where clause OFEV/ESBRIT/PIRFENIDONE
+select patient_id,min(min_svc_dt) as min_svc_dt,max(day_gap) as  day_gap from(
+select patient_id,episodes,min(svc_dt::date) as min_svc_dt,date_diff('day',min(svc_dt::date),max(svc_dt::date)) as day_gap  from laad_data.ipf_episodes 
+where mkted_prod_nm='OFEV' and patient_id in (select distinct patient_id from laad_data.dx_claim where diag_cd in ('51631','J84112'))
+group by patient_id,episodes order by 1,2 desc
+) as subquery
+group by patient_id;
+
+select * from laad_data.ipf_episodes ie where patient_id ='10010670911'
+
+
+--Calculating number of Episodes for patient to check the distibution 
+select freq,count(distinct patient_id) from (
+select patient_id ,count(distinct episodes) as freq from laad_data.ipf_episodes 
+where mkted_prod_nm='PIRFENIDONE'
+group by patient_id)
+group by freq order by 2 desc;
+
+
+-- change the drug name in where clause OFEV/ESBRIET/PIRFENIDONE
+select patient_id,min(min_svc_dt),round(max(total_dos)/30) as  max_total_dos from(
+select patient_id,episodes,min(svc_dt::date) as min_svc_dt,sum(dos) as total_dos  from laad_data.ipf_episodes 
+where mkted_prod_nm='ESBRIET' and patient_id in (select distinct patient_id from laad_data.dx_claim where diag_cd in ('51631','J84112')) group by patient_id,episodes order by 1,2 desc
+) as subquery
+group by patient_id;
+
+
+select count(distinct patient_id) from laad_data.ipf_universe iu where mkted_prod_nm='OFEV';

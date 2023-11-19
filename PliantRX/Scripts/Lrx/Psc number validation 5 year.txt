@@ -1,0 +1,49 @@
+select count(distinct patient_id) from laad_data.dx_claim  
+where diag_cd in ('5761','K8301') and month_id  between '201707' and '202206';
+
+select count(*) from (
+select count(distinct patient_id) from laad_data.dx_claim  
+where diag_cd in ('5761','K8301') and month_id  between '201707' and '202206'
+group by patient_id having count(distinct patient_id||svc_dt)>1);
+
+select count(distinct patient_id) from (
+select distinct d.patient_id from laad_data.rx_claim d
+inner join laad_data.products p on d.product_id=p.product_id 
+where d.month_id  between '201707' and '202206' and
+p.mkted_prod_nm in ('URSODIOL','VANCOMYCIN HYDROCHLORIDE','RIFAMPIN','FENOFIBRATE')
+union 
+select distinct patient_id from laad_data.dx_claim where prc_cd in (
+'0F753DZ', '0F753ZZ','0F754DZ', '0F757DZ', '0F758DZ', '0F763DZ', '0F763ZZ', '0F764DZ', '0F767DZ', '0F768DZ','0F773DZ', '0F773ZZ', '0F774DZ', '0F777DZ', '0F778DZ', '0F783DZ', '0F783ZZ', '0F784DZ','0F787DZ', '0F788DZ', '0F793DZ', '0F793ZZ', '0F794DZ', '0F797DZ', '0F798DZ', '0F7C3ZZ','0F7C4DZ', '0F7C7DZ', '0F7C8DZ', '5187', '43274', '47538', '47539', '47540', '47542', '0F9530Z','0F9630Z', '0F9730Z', '0F9830Z', '0F9930Z'
+));
+
+select count(distinct patient_id) from (
+select distinct d.patient_id from laad_data.rx_claim d
+inner join laad_data.products p on d.product_id=p.product_id 
+where d.month_id  between '201707' and '202206' and
+p.mkted_prod_nm in ('URSODIOL','VANCOMYCIN HYDROCHLORIDE','RIFAMPIN','FENOFIBRATE')
+union 
+select distinct patient_id from laad_data.dx_claim where prc_cd in (
+'0F753DZ', '0F753ZZ','0F754DZ', '0F757DZ', '0F758DZ', '0F763DZ', '0F763ZZ', '0F764DZ', '0F767DZ', '0F768DZ','0F773DZ', '0F773ZZ', '0F774DZ', '0F777DZ', '0F778DZ', '0F783DZ', '0F783ZZ', '0F784DZ','0F787DZ', '0F788DZ', '0F793DZ', '0F793ZZ', '0F794DZ', '0F797DZ', '0F798DZ', '0F7C3ZZ','0F7C4DZ', '0F7C7DZ', '0F7C8DZ', '5187', '43274', '47538', '47539', '47540', '47542', '0F9530Z','0F9630Z', '0F9730Z', '0F9830Z', '0F9930Z'
+)) where patient_id in (select distinct patient_id from laad_data.dx_claim  where diag_cd in ('5761','K8301') and month_id  between '201707' and '202206');
+
+select count(distinct patient_id) from (
+select distinct d.patient_id from laad_data.rx_claim d
+inner join laad_data.products p on d.product_id=p.product_id 
+where d.month_id  between '201707' and '202206' and
+p.mkted_prod_nm in ('URSODIOL','VANCOMYCIN HYDROCHLORIDE','RIFAMPIN','FENOFIBRATE')
+union 
+select distinct patient_id from laad_data.dx_claim where prc_cd in (
+'0F753DZ', '0F753ZZ','0F754DZ', '0F757DZ', '0F758DZ', '0F763DZ', '0F763ZZ', '0F764DZ', '0F767DZ', '0F768DZ','0F773DZ', '0F773ZZ', '0F774DZ', '0F777DZ', '0F778DZ', '0F783DZ', '0F783ZZ', '0F784DZ','0F787DZ', '0F788DZ', '0F793DZ', '0F793ZZ', '0F794DZ', '0F797DZ', '0F798DZ', '0F7C3ZZ','0F7C4DZ', '0F7C7DZ', '0F7C8DZ', '5187', '43274', '47538', '47539', '47540', '47542', '0F9530Z','0F9630Z', '0F9730Z', '0F9830Z', '0F9930Z'
+)union 
+select distinct patient_id from laad_data.dx_claim  
+where diag_cd in  ('5761','K8301') and month_id  between '201707' and '202206'
+);
+
+
+
+select p.mkted_prod_nm,count(distinct d.patient_id) from laad_data.rx_claim d
+inner join laad_data.products p on d.product_id=p.product_id 
+where d.month_id  between '201707' and '202206' and
+p.mkted_prod_nm in ('URSODIOL','VANCOMYCIN HYDROCHLORIDE','RIFAMPIN','FENOFIBRATE')
+group by p.mkted_prod_nm order by mkted_prod_nm;
+

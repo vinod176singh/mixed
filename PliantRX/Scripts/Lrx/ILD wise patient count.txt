@@ -1,0 +1,38 @@
+select diag_cd,count(distinct patient_id) from laad_data.dx_claim  
+where diag_cd in ('515','5160','5161','5162','51630','51631','51632','51633','51634','51635','51636','51637','5164','5165','51661','51662','51663',
+'51664','51669','5169','J8410','J8489','J8401','J8403','J8402','J84111','J84112','J84113','J84114','J84115','J842','J84116','J84117','J8481','J8482',
+'J84841','J84842','J8483','J84843','J84848','J849','J84170','M3481')
+and patient_id in (
+select distinct patient_id from laad_data.dx_claim  
+where diag_cd in ('515','5160','5161','5162','51630','51631','51632','51633','51634','51635','51636','51637','5164','5165','51661','51662','51663',
+'51664','51669','5169','J8410','J8489','J8401','J8403','J8402','J84111','J84112','J84113','J84114','J84115','J842','J84116','J84117','J8481','J8482',
+'J84841','J84842','J8483','J84843','J84848','J849','J84170','M3481')
+group by patient_id having count(distinct diag_cd)=1)
+group by diag_cd order by 2 desc;
+
+select diag_cd,count(distinct patient_id) from laad_data.dx_claim 
+where diag_cd in ('515','5160','5161','5162','51630','51631','51632','51633','51634','51635','51636','51637','5164','5165','51661','51662','51663',
+'51664','51669','5169','J8410','J8489','J8401','J8403','J8402','J84111','J84112','J84113','J84114','J84115','J842','J84116','J84117','J8481','J8482',
+'J84841','J84842','J8483','J84843','J84848','J849','J84170','M3481')
+group by diag_cd;
+
+select count(distinct patient_id) from laad_data.dx_claim 
+where diag_cd in ('515','5160','5161','5162','51630','51631','51632','51633','51634','51635','51636','51637','5164','5165','51661','51662','51663',
+'51664','51669','5169','J8410','J8489','J8401','J8403','J8402','J84111','J84112','J84113','J84114','J84115','J842','J84116','J84117','J8481','J8482',
+'J84841','J84842','J8483','J84843','J84848','J849','J84170','M3481');
+
+select * from (
+select  patient_id,extract (year from min(svc_dt::date)) as svc_dt  from laad_data.dx_claim where diag_cd in ('J84170')
+group by patient_id
+) pivot(count(distinct patient_id) for svc_dt in (2014,2015,2016,2017,2018,2019,2020,2021,2022));
+
+select * from (
+select  patient_id,extract (year from min(svc_dt::date)) as svc_dt from laad_data.dx_claim where diag_cd in ('J84170')
+and patient_id in(select distinct patient_id from laad_data.dx_claim  
+where diag_cd in ('515','5160','5161','5162','51630','51631','51632','51633','51634','51635','51636','51637','5164','5165','51661','51662','51663',
+'51664','51669','5169','J8410','J8489','J8401','J8403','J8402','J84111','J84112','J84113','J84114','J84115','J842','J84116','J84117','J8481','J8482',
+'J84841','J84842','J8483','J84843','J84848','J849','J84170','M3481')
+group by patient_id having count(distinct diag_cd)=1)
+group by patient_id )
+pivot(count(distinct patient_id) for svc_dt in (2014,2015,2016,2017,2018,2019,2020,2021,2022));
+

@@ -1,0 +1,144 @@
+create or replace procedure call laad_data.usp_generate_ipf_universe()
+as
+$$
+begin
+create table laad_data.ipf_universe as 	
+select distinct d.patient_id,d.svc_dt,p.mkted_prod_nm  from 
+laad_data.rx_claim d
+inner join laad_data.products p on d.product_id=p.product_id 
+inner join laad_data.dx_claim c on c.patient_id =d.patient_id 
+where p.mkted_prod_nm in ('ESBRIET','OFEV','PIRFENIDONE') 
+and diag_cd in ('51631','J84112');
+end
+$$ language plpgsql
+
+--alter user vsingh password 'Set05get2023'
+
+
+--select patient_id from laad_data.ipf_universe
+
+select * from laad_data.ipf_lot;
+group by patient_id having count(distinct mkted_prod_nm)=3;
+
+copy laad_data.ipf_lot from 's3://commdata/CommData/ipf_lot.csv' 
+iam_role 'arn:aws:iam::406431883826:role/Redshift-S3-linkage'
+delimiter '|'
+TRUNCATECOLUMNS
+ACCEPTINVCHARS
+IGNOREHEADER  1
+region 'us-west-2';
+
+select * from pg_catalog.stl_load_errors 
+
+-- laad_data.ipf_lot definition
+
+-- Drop table
+
+-- DROP TABLE laad_data.ipf_lot;
+
+DROP TABLE laad_data.ipf_lot;
+CREATE TABLE IF NOT EXISTS laad_data.ipf_lot
+(
+	patient_id VARCHAR(256)   ENCODE lzo
+	,svc_dt VARCHAR(256)   ENCODE lzo
+	,mkted_prod_nm VARCHAR(256)   ENCODE lzo
+	,lot varchar(10)   
+)
+DISTSTYLE AUTO
+;
+ALTER TABLE laad_data.ipf_lot owner to vsingh;
+
+select * from laad_data.ipf_lot;
+select count(distinct patient_id) from laad_data.ipf_lot;
+select max(lot)from laad_data.ipf_lot;
+select min(lot)from laad_data.ipf_lot;
+
+select prd_cnt,count(distinct patient_id) from(
+select distinct patient_id,count(distinct mkted_prod_nm) as prd_cnt from laad_data.ipf_lot
+group by patient_id
+)group by prd_cnt order by 1,2;
+
+select mkted_prod_nm ,count(distinct patient_id) from laad_data.ipf_lot
+where patient_id in (select distinct patient_id  from laad_data.ipf_lot group by patient_id having count(distinct mkted_prod_nm)=1)
+group by mkted_prod_nm;
+
+select count(distinct ofev.patient_id) from
+(select * from laad_data.ipf_lot  where lot=1 and mkted_prod_nm ='OFEV') as  ofev
+inner join 
+(select * from laad_data.ipf_lot  where lot=2 and mkted_prod_nm ='ESBRIET') as Esbriet
+on ofev.patient_id =Esbriet.patient_id
+where ofev.patient_id not in (select distinct patient_id  from laad_data.ipf_lot group by patient_id having count(distinct mkted_prod_nm)=3);
+
+select count(distinct ofev.patient_id) from
+(select * from laad_data.ipf_lot  where lot=1 and mkted_prod_nm ='OFEV') as  ofev
+inner join 
+(select * from laad_data.ipf_lot  where lot=2 and mkted_prod_nm ='PIRFENIDONE') as Esbriet
+on ofev.patient_id =Esbriet.patient_id
+where ofev.patient_id not in (select distinct patient_id  from laad_data.ipf_lot group by patient_id having count(distinct mkted_prod_nm)=3);
+
+select count(distinct ofev.patient_id) from
+(select * from laad_data.ipf_lot  where lot=1 and mkted_prod_nm ='ESBRIET') as  ofev
+inner join 
+(select * from laad_data.ipf_lot  where lot=2 and mkted_prod_nm ='OFEV') as Esbriet
+on ofev.patient_id =Esbriet.patient_id
+where ofev.patient_id not in (select distinct patient_id  from laad_data.ipf_lot group by patient_id having count(distinct mkted_prod_nm)=3);
+
+select count(distinct ofev.patient_id) from
+(select * from laad_data.ipf_lot  where lot=1 and mkted_prod_nm ='ESBRIET') as  ofev
+inner join 
+(select * from laad_data.ipf_lot  where lot=2 and mkted_prod_nm ='PIRFENIDONE') as Esbriet
+on ofev.patient_id =Esbriet.patient_id
+where ofev.patient_id not in (select distinct patient_id  from laad_data.ipf_lot group by patient_id having count(distinct mkted_prod_nm)=3);
+
+select count(distinct ofev.patient_id) from
+(select * from laad_data.ipf_lot  where lot=1 and mkted_prod_nm ='PIRFENIDONE') as  ofev
+inner join 
+(select * from laad_data.ipf_lot  where lot=2 and mkted_prod_nm ='OFEV') as Esbriet
+on ofev.patient_id =Esbriet.patient_id
+where ofev.patient_id not in (select distinct patient_id  from laad_data.ipf_lot group by patient_id having count(distinct mkted_prod_nm)=3);
+
+select count(distinct ofev.patient_id) from
+(select * from laad_data.ipf_lot  where lot=1 and mkted_prod_nm ='PIRFENIDONE') as  ofev
+inner join 
+(select * from laad_data.ipf_lot  where lot=2 and mkted_prod_nm ='ESBRIET') as Esbriet
+on ofev.patient_id =Esbriet.patient_id
+where ofev.patient_id not in (select distinct patient_id  from laad_data.ipf_lot group by patient_id having count(distinct mkted_prod_nm)=3);
+
+select count(distinct ofev.patient_id) from
+(select * from laad_data.ipf_lot  where lot=1 and mkted_prod_nm ='OFEV') as  ofev
+inner join 
+(select * from laad_data.ipf_lot  where lot=2 and mkted_prod_nm ='ESBRIET') as Esbriet
+on ofev.patient_id =Esbriet.patient_id
+inner join 
+(select * from laad_data.ipf_lot  where lot=3 and mkted_prod_nm ='PIRFENIDONE') as pir
+on pir.patient_id =Esbriet.patient_id;
+
+select count(distinct ofev.patient_id) from
+(select * from laad_data.ipf_lot  where lot=1 and mkted_prod_nm ='OFEV') as  ofev
+inner join 
+(select * from laad_data.ipf_lot  where lot=2 and mkted_prod_nm ='PIRFENIDONE') as Esbriet
+on ofev.patient_id =Esbriet.patient_id
+inner join 
+(select * from laad_data.ipf_lot  where lot=3 and mkted_prod_nm ='ESBRIET') as pir
+on pir.patient_id =Esbriet.patient_id;
+
+select count(distinct ofev.patient_id) from
+(select * from laad_data.ipf_lot  where lot=1 and mkted_prod_nm ='ESBRIET') as  ofev
+inner join 
+(select * from laad_data.ipf_lot  where lot=2 and mkted_prod_nm ='OFEV') as Esbriet
+on ofev.patient_id =Esbriet.patient_id
+inner join 
+(select * from laad_data.ipf_lot  where lot=3 and mkted_prod_nm ='PIRFENIDONE') as pir
+on pir.patient_id =Esbriet.patient_id;
+
+select count(distinct ofev.patient_id) from
+(select * from laad_data.ipf_lot  where lot=1 and mkted_prod_nm ='ESBRIET') as  ofev
+inner join 
+(select * from laad_data.ipf_lot  where lot=2 and mkted_prod_nm ='PIRFENIDONE') as Esbriet
+on ofev.patient_id =Esbriet.patient_id
+inner join 
+(select * from laad_data.ipf_lot  where lot=3 and mkted_prod_nm ='OFEV') as pir
+on pir.patient_id =Esbriet.patient_id;
+
+select lot,count(distinct patient_id) from laad_data.ipf_lot
+group by lot order by 1;

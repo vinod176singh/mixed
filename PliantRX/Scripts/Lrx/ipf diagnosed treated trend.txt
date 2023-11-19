@@ -1,0 +1,22 @@
+select * from (
+select patient_id,extract(year from min(svc_dt::date)) as min_svc_dt from laad_data.dx_claim  
+where diag_cd in ('51631','J84112')
+group by patient_id
+) pivot (count(distinct patient_id) for min_svc_dt in (2013,2014,2015,2016,2017,2018,2019,2020,2021,2022));
+
+select * from (
+select patient_id,extract(year from min(svc_dt::date)) as min_svc_dt  from laad_data.rx_claim d
+inner join laad_data.products p on d.product_id=p.product_id 
+where  p.mkted_prod_nm in ('ESBRIET','OFEV','PIRFENIDONE')
+group by patient_id
+) pivot (count(distinct patient_id) for min_svc_dt in (2013,2014,2015,2016,2017,2018,2019,2020,2021,2022));
+
+select * from (
+select c.patient_id,extract(year from min(c.svc_dt::date)) as min_svc_dt  from 
+laad_data.rx_claim d
+inner join laad_data.products p on d.product_id=p.product_id 
+inner join laad_data.dx_claim c on c.patient_id =d.patient_id 
+where  p.mkted_prod_nm in ('ESBRIET','OFEV','PIRFENIDONE') 
+and diag_cd in ('51631','J84112')
+group by c.patient_id
+) pivot (count(distinct patient_id) for min_svc_dt in (2013,2014,2015,2016,2017,2018,2019,2020,2021,2022));

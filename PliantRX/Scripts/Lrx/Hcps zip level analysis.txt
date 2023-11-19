@@ -1,0 +1,35 @@
+select distinct case when p.mkted_prod_nm  in ('ESBRIET','OFEV','PIRFENIDONE') then 'TX' end as TX,
+				case when p.mkted_prod_nm  in ('ESBRIET') then 'ESBRIET'
+					 when p.mkted_prod_nm  in ('OFEV') then 'OFEV'
+					 when p.mkted_prod_nm  in ('PIRFENIDONE') then 'PIRFENIDONE'
+					 else 'NONTX' end as mkted_prod_nm
+,p2.zip,count(distinct d.patient_id) as pats
+from laad_data.rx_claim d
+inner join laad_data.provider p2 on p2.provider_id =d.provider_id 
+inner join laad_data.products p on d.product_id=p.product_id 
+where --p.mkted_prod_nm  in ('ESBRIET','OFEV','PIRFENIDONE') and  
+d.patient_id in (select distinct patient_id from laad_data.dx_claim  where diag_cd in ('51631','J84112'))
+and p2.zip <>'' and svc_dt>='20210101'
+group by 1,2,3;
+
+select distinct case when p.mkted_prod_nm  in ('ESBRIET','OFEV','PIRFENIDONE') then 'TX' end as TX
+,p2.zip,count(distinct d.patient_id) as pats
+from laad_data.rx_claim d
+inner join laad_data.provider p2 on p2.provider_id =d.provider_id 
+inner join laad_data.products p on d.product_id=p.product_id 
+where --p.mkted_prod_nm  in ('ESBRIET','OFEV','PIRFENIDONE') and  
+d.patient_id in (select distinct patient_id from laad_data.dx_claim  where diag_cd in ('51631','J84112'))
+and p2.zip <>'' and svc_dt>='20210101'
+group by 1,2;
+
+
+select zip,count(distinct provider_id)  from laad_data.provider p where provider_id in (
+select distinct rendering_provider_id  from laad_data.dx_claim 
+where diag_cd in ('V707','Z006') and patient_id in (select patient_id from laad_data.dx_claim where diag_cd in ('51631','J84112') )
+intersect 
+select distinct rendering_provider_id  from laad_data.dx_claim 
+where diag_cd in ('51631','J84112') and svc_dt between '20210101' and '20221231')
+group by 1;
+
+
+select * from laad_data.provider p where zip='' or zip is null

@@ -1,0 +1,110 @@
+select max(svc_dt),min(svc_dt)from laad_data.rx_claim rc ;
+
+
+select * from (
+select pat_id,extract(year from min(from_dt)) as yr from pharmetrics.claims 
+where 'J84170' in (diag_admit, diag1, diag2, diag3, diag4, diag5, diag6, diag7, diag8, diag9, diag10, diag11, diag12)
+--and pat_id not in (select distinct pat_id from pharmetrics.pats_except_J84170)-- only j84170
+group by pat_id
+) pivot(count(distinct pat_id) for yr in (2014,2015,2016,2017,2018,2019,2020,2021,2022));
+
+drop table if exists pharmetrics.claims_J84170_dx;
+create table pharmetrics.claims_J84170_dx as 
+select distinct a.pat_id,a.from_dt,a.ndc,diag_admit, diag1, diag2, diag3, diag4, diag5, diag6, diag7, diag8, diag9, diag10, diag11, diag12  from 
+pharmetrics.claims a
+where 'J84170' in (diag_admit, diag1, diag2, diag3, diag4, diag5, diag6, diag7, diag8, diag9, diag10, diag11, diag12);
+
+select pat_id,min(from_dt) from pharmetrics.claims_J84170_dx group by pat_id;
+
+select distinct product_name  from pharmetrics.rx_lookup where product_name  like '%OFEV%' or product_name  like '%ESBRIET%' or product_name  like '%PIRFENIDONE%';
+
+select distinct product_name from pharmetrics.claims_J84170;
+
+drop table if exists pharmetrics.claims_J84170;
+create table pharmetrics.claims_J84170 as 
+select distinct a.pat_id,a.from_dt,b.product_name,diag_admit, diag1, diag2, diag3, diag4, diag5, diag6, diag7, diag8, diag9, diag10, diag11, diag12  from 
+pharmetrics.claims a
+inner join pharmetrics.rx_lookup b on a.ndc =b.ndc 
+where pat_id in (select pat_id from pharmetrics.claims where 'J84170' in (diag_admit, diag1, diag2, diag3, diag4, diag5, diag6, diag7, diag8, diag9, diag10, diag11, diag12));
+
+--J84170 patients
+select * from (
+select pat_id,extract(year from min(from_dt)) as yr,'total' as cls
+from pharmetrics.claims_J84170
+group by pat_id,cls)
+pivot(count(pat_id) for yr in (2014,2015,2016,2017,2018,2019,2020,2021,2022))
+union 
+select * from (
+select pat_id,extract(year from min(from_dt)) as yr,case when product_name in ('ESBRIET','PIRFENIDONE','OFEV') then product_name
+			else 'NON-MB' end as cls
+from pharmetrics.claims_J84170
+group by pat_id,cls)
+pivot(count(pat_id) for yr in (2014,2015,2016,2017,2018,2019,2020,2021,2022));
+
+--after DX
+select * from (
+select a.pat_id,extract(year from min(a.from_dt)) as yr,'total' as cls
+from pharmetrics.claims_J84170 a
+inner join 
+(select pat_id,min(from_dt) as from_dt from pharmetrics.claims_J84170_dx group by pat_id) b
+on a.pat_id=b.pat_id and a.from_dt>=b.from_dt
+group by a.pat_id,cls)
+pivot(count(pat_id) for yr in (2014,2015,2016,2017,2018,2019,2020,2021,2022))
+union 
+select * from (
+select a.pat_id,extract(year from min(a.from_dt)) as yr,case when product_name in ('ESBRIET','PIRFENIDONE','OFEV') then product_name
+			else 'NON-MB' end as cls
+from pharmetrics.claims_J84170 a
+inner join 
+(select pat_id,min(from_dt) as from_dt from pharmetrics.claims_J84170_dx group by pat_id) b
+on a.pat_id=b.pat_id and a.from_dt>=b.from_dt
+group by a.pat_id,cls)
+pivot(count(pat_id) for yr in (2014,2015,2016,2017,2018,2019,2020,2021,2022));
+
+
+--J84170 diag claims only
+--J8410,M3481,J84112,
+select pat_id into pharmetrics.pats_except_J84170
+from pharmetrics.claims where 
+'J8410' in (diag_admit, diag1, diag2, diag3, diag4, diag5, diag6, diag7, diag8, diag9, diag10, diag11, diag12)
+or 
+'M3481' in (diag_admit, diag1, diag2, diag3, diag4, diag5, diag6, diag7, diag8, diag9, diag10, diag11, diag12)
+or 
+'J84112' in (diag_admit, diag1, diag2, diag3, diag4, diag5, diag6, diag7, diag8, diag9, diag10, diag11, diag12);
+
+select * from (
+select pat_id||from_dt as pat_id ,extract(year from min(from_dt)) as yr,'total' as cls
+from pharmetrics.claims_J84170
+where pat_id not in (select pat_id from pharmetrics.pats_except_J84170)
+group by 1,cls)
+pivot(count(pat_id) for yr in (2014,2015,2016,2017,2018,2019,2020,2021,2022))
+union 
+select * from (
+select pat_id||from_dt as pat_id ,extract(year from min(from_dt)) as yr,case when product_name in ('ESBRIET','PIRFENIDONE','OFEV',
+'PREDNISONE',
+'AZITHROMYCIN',
+'ALBUTEROL SULFATE HFA',
+'AMOXICILLIN/CLAVULANATE P',
+'SULFAMETHOXAZOLE/TRIMETHO',
+'DOXYCYCLINE HYCLATE',
+'OMEPRAZOLE',
+'AMOXICILLIN',
+'LEVOFLOXACIN',
+'ATORVASTATIN CALCIUM') then product_name
+			else 'others' end as cls
+from pharmetrics.claims_J84170 where pat_id not in (select pat_id from pharmetrics.pats_except_J84170)
+group by 1,cls)
+pivot(count(pat_id) for yr in (2014,2015,2016,2017,2018,2019,2020,2021,2022));
+
+select * from pharmetrics.claims_J84170 
+where product_name in ('ESBRIET','PIRFENIDONE','OFEV');
+
+where 'J84170' in (diag_admit, diag1, diag2, diag3, diag4, diag5, diag6, diag7, diag8, diag9, diag10, diag11, diag12)
+
+
+select distinct product_name from pharmetrics.claims_J84170;
+
+
+--select distinct product_name  from pharmetrics.ndc_codes where prod_custom_lvl1_desc='IPF'
+
+

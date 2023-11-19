@@ -1,0 +1,85 @@
+insert into pharmetrics.comorbid_ipf values('0BYK0Z0','LungTransplant');
+insert into pharmetrics.comorbid_ipf values('335','LungTransplant');
+insert into pharmetrics.comorbid_ipf values('32851','LungTransplant');
+insert into pharmetrics.comorbid_ipf values('0BYL0Z0','LungTransplant');
+insert into pharmetrics.comorbid_ipf values('0BYM0Z0','LungTransplant');
+insert into pharmetrics.comorbid_ipf values('0BYM0Z1','LungTransplant');
+insert into pharmetrics.comorbid_ipf values('3352','LungTransplant');
+insert into pharmetrics.comorbid_ipf values('32853','LungTransplant');
+insert into pharmetrics.comorbid_ipf values('3351','LungTransplant');
+insert into pharmetrics.comorbid_ipf values('0BYL0Z1','LungTransplant');
+insert into pharmetrics.comorbid_ipf values('3350','LungTransplant');
+insert into pharmetrics.comorbid_ipf values('32854','LungTransplant');
+insert into pharmetrics.comorbid_ipf values('32852','LungTransplant');
+
+insert into pharmetrics.comorbid_ipf values('1620','LungCancer');
+insert into pharmetrics.comorbid_ipf values('1622','LungCancer');
+insert into pharmetrics.comorbid_ipf values('1623','LungCancer');
+insert into pharmetrics.comorbid_ipf values('1624','LungCancer');
+insert into pharmetrics.comorbid_ipf values('1625','LungCancer');
+insert into pharmetrics.comorbid_ipf values('1628','LungCancer');
+insert into pharmetrics.comorbid_ipf values('1629','LungCancer');
+insert into pharmetrics.comorbid_ipf values('C3400','LungCancer');
+insert into pharmetrics.comorbid_ipf values('C3401','LungCancer');
+insert into pharmetrics.comorbid_ipf values('C3402','LungCancer');
+insert into pharmetrics.comorbid_ipf values('C3410','LungCancer');
+insert into pharmetrics.comorbid_ipf values('C3411','LungCancer');
+insert into pharmetrics.comorbid_ipf values('C3412','LungCancer');
+insert into pharmetrics.comorbid_ipf values('C342','LungCancer');
+insert into pharmetrics.comorbid_ipf values('C3430','LungCancer');
+insert into pharmetrics.comorbid_ipf values('C3431','LungCancer');
+insert into pharmetrics.comorbid_ipf values('C3432','LungCancer');
+insert into pharmetrics.comorbid_ipf values('C3480','LungCancer');
+insert into pharmetrics.comorbid_ipf values('C3481','LungCancer');
+insert into pharmetrics.comorbid_ipf values('C3482','LungCancer');
+insert into pharmetrics.comorbid_ipf values('C3490','LungCancer');
+insert into pharmetrics.comorbid_ipf values('C3491','LungCancer');
+insert into pharmetrics.comorbid_ipf values('C3492','LungCancer');
+
+SELECT
+    CASE
+        WHEN diag_cd IN (select distinct dx_code from pharmetrics.comorbid_ipf where description='AHD') THEN 'AHD'
+        WHEN diag_cd IN (select distinct dx_code from pharmetrics.comorbid_ipf where description='GERD') THEN 'GERD'
+        WHEN diag_cd IN (select distinct dx_code from pharmetrics.comorbid_ipf where description='DYSRHYTHMIAS') THEN 'DYSRHYTHMIAS'
+        WHEN diag_cd IN (select distinct dx_code from pharmetrics.comorbid_ipf where description='COPD') THEN 'COPD'
+        WHEN diag_cd IN (select distinct dx_code from pharmetrics.comorbid_ipf where description='Type 2 Diabetes') THEN 'Type 2 Diabetes'
+        WHEN diag_cd IN (select distinct dx_code from pharmetrics.comorbid_ipf where description='Heart Failure') THEN 'Heart Failure'
+        WHEN diag_cd IN (select distinct dx_code from pharmetrics.comorbid_ipf where description='Apnea') THEN 'Apnea'
+        WHEN diag_cd IN (select distinct dx_code from pharmetrics.comorbid_ipf where description='IHD/MI') THEN 'IHD/MI'
+        WHEN diag_cd IN (select distinct dx_code from pharmetrics.comorbid_ipf where description='Anxiety / Depression') THEN 'Anxiety / Depression'
+        WHEN diag_cd IN (select distinct dx_code from pharmetrics.comorbid_ipf where description='Pulmonary Hypertension') THEN 'Pulmonary Hypertension'
+        WHEN diag_cd IN (select distinct dx_code from pharmetrics.comorbid_ipf where description='LungTransplant') THEN 'LungTransplant'
+        WHEN diag_cd IN (select distinct dx_code from pharmetrics.comorbid_ipf where description='LungCancer') THEN 'LungCancer'
+        ELSE 'C'
+        END AS group_label,
+    COUNT(DISTINCT patient_id)
+FROM laad_data.dx_claim
+WHERE patient_id IN (SELECT DISTINCT patient_id FROM laad_data.dx_claim
+                    WHERE diag_cd IN ('51631', 'J84112')
+)
+AND diag_cd <> ''
+GROUP BY group_label;
+
+
+select 
+    CASE
+        WHEN diag_cd IN (select distinct dx_code from pharmetrics.comorbid_ipf where description='AHD') THEN 'AHD'
+        WHEN diag_cd IN (select distinct dx_code from pharmetrics.comorbid_ipf where description='GERD') THEN 'GERD'
+        WHEN diag_cd IN (select distinct dx_code from pharmetrics.comorbid_ipf where description='DYSRHYTHMIAS') THEN 'DYSRHYTHMIAS'
+        WHEN diag_cd IN (select distinct dx_code from pharmetrics.comorbid_ipf where description='COPD') THEN 'COPD'
+        WHEN diag_cd IN (select distinct dx_code from pharmetrics.comorbid_ipf where description='Type 2 Diabetes') THEN 'Type 2 Diabetes'
+        WHEN diag_cd IN (select distinct dx_code from pharmetrics.comorbid_ipf where description='Heart Failure') THEN 'Heart Failure'
+        WHEN diag_cd IN (select distinct dx_code from pharmetrics.comorbid_ipf where description='Apnea') THEN 'Apnea'
+        WHEN diag_cd IN (select distinct dx_code from pharmetrics.comorbid_ipf where description='IHD/MI') THEN 'IHD/MI'
+        WHEN diag_cd IN (select distinct dx_code from pharmetrics.comorbid_ipf where description='Anxiety / Depression') THEN 'Anxiety / Depression'
+        WHEN diag_cd IN (select distinct dx_code from pharmetrics.comorbid_ipf where description='Pulmonary Hypertension') THEN 'Pulmonary Hypertension' 
+		WHEN diag_cd IN (select distinct dx_code from pharmetrics.comorbid_ipf where description='LungTransplant') THEN 'LungTransplant'
+        WHEN diag_cd IN (select distinct dx_code from pharmetrics.comorbid_ipf where description='LungCancer') THEN 'LungCancer'
+        ELSE 'C'
+        END AS group_label,
+    COUNT(DISTINCT B.patient_id)
+from (SELECT DISTINCT patient_id,min(svc_dt) as svc_dt FROM laad_data.dx_claim
+ WHERE diag_cd IN ('51631', 'J84112') group by 1) A inner join laad_data.dx_claim B on A.patient_id=B.patient_id and B.svc_dt>A.svc_dt
+AND diag_cd <> ''
+GROUP BY group_label;
+

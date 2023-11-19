@@ -1,0 +1,146 @@
+select count(distinct patient_id) from laad_data.dx_claim  where diag_cd in ('51631','J84112');
+
+select count(distinct d.patient_id) from laad_data.rx_claim d
+inner join laad_data.products p on d.product_id=p.product_id 
+where patient_id in (select patient_id from laad_data.dx_claim  where diag_cd in ('51631','J84112'))
+and svc_dt between '20170701' and '20180630'
+and p.mkted_prod_nm in ('ESBRIET','OFEV','PIRFENIDONE');
+
+
+select p.mkted_prod_nm,count(distinct d.patient_id) from laad_data.rx_claim d
+inner join laad_data.products p on d.product_id=p.product_id 
+where patient_id in (select patient_id from laad_data.dx_claim  where diag_cd in ('51631','J84112'))
+and p.mkted_prod_nm in ('PREDNISONE','ESBRIET','OFEV','PIRFENIDONE') and svc_dt between '20180701' and '20190630'
+group by p.mkted_prod_nm;
+
+select mkted_prod_nm,count(distinct patient_id) from (
+select p.mkted_prod_nm,d.patient_id,min(svc_dt) as svc_dt  from laad_data.rx_claim d
+inner join laad_data.products p on d.product_id=p.product_id 
+where patient_id in (select patient_id from laad_data.dx_claim  where diag_cd in ('51631','J84112'))
+and p.mkted_prod_nm in ('PREDNISONE','ESBRIET','OFEV','PIRFENIDONE') 
+group by p.mkted_prod_nm,d.patient_id having min(svc_dt) between '20180701' and '20190630' )
+group by 
+mkted_prod_nm;
+
+select * from (
+select patient_id,extract(year from min(svc_dt::date)) as min_svc_dt from laad_data.dx_claim  
+where diag_cd in ('51631','J84112') group by patient_id;
+
+---region mapping
+select ztm.region,count(distinct d.patient_id) from laad_data.rx_claim d
+inner join laad_data.products p on d.product_id=p.product_id 
+inner join laad_data.provider p2 on p2.provider_id =d.provider_id 
+inner join laad_data.zip_terr_mapping ztm   on ztm.zip =p2.zip 
+where patient_id in (select patient_id from laad_data.dx_claim  where diag_cd in ('51631','J84112'))
+and p.mkted_prod_nm in ('PREDNISONE','ESBRIET','OFEV','PIRFENIDONE') --and svc_dt between '20180701' and '20190630'
+group by 1;
+
+select region,count(distinct patient_id) from (
+select ztm.region,p.mkted_prod_nm,d.patient_id,min(svc_dt) as svc_dt  from laad_data.rx_claim d
+inner join laad_data.products p on d.product_id=p.product_id 
+inner join laad_data.provider p2 on p2.provider_id =d.provider_id 
+inner join laad_data.zip_terr_mapping ztm   on ztm.zip =p2.zip 
+where patient_id in (select patient_id from laad_data.dx_claim  where diag_cd in ('51631','J84112'))
+and p.mkted_prod_nm in ('PREDNISONE','ESBRIET','OFEV','PIRFENIDONE') 
+group by ztm.region,p.mkted_prod_nm,d.patient_id --having min(svc_dt) between '20180701' and '20190630' 
+)
+group by region;
+
+
+--Age gender
+select pat_gender_cd,count(distinct patient_id)  from laad_data.patient
+where patient_id in (select distinct patient_id from laad_data.dx_claim  
+where diag_cd in ('51631','J84112')  and svc_dt between '20170701' and '20180630')
+and patient_id in (select distinct patient_id  from laad_data.rx_claim d
+inner join laad_data.products p on d.product_id=p.product_id 
+where mkted_prod_nm in ('PREDNISONE','ESBRIET','OFEV','PIRFENIDONE')and svc_dt between '20170701' and '20180630')
+group by pat_gender_cd;
+
+select CASE 
+    WHEN (2023 - pat_brth_yr_nbr) <18 THEN '0-17' 
+    WHEN (2023 - pat_brth_yr_nbr) BETWEEN 18 AND 29 THEN '18-29' 
+    WHEN (2023 - pat_brth_yr_nbr) BETWEEN 30 AND 44 THEN '30-44'
+    WHEN (2023 - pat_brth_yr_nbr) BETWEEN 45 AND 64 THEN '45-64'
+    WHEN (2023 - pat_brth_yr_nbr) BETWEEN 65 AND 74 THEN '65-74'
+    WHEN (2023 - pat_brth_yr_nbr) BETWEEN 75 AND 84 THEN '75-84'
+    WHEN (2023 - pat_brth_yr_nbr) >=85 THEN '85+'
+    ELSE    'Unknown'  END AS age_group,
+count(distinct patient_id) as tx  from laad_data.patient
+where patient_id in (select distinct patient_id from laad_data.dx_claim  
+where diag_cd in ('51631','J84112')and svc_dt between '20170701' and '20180630')
+and patient_id in (select distinct patient_id  from laad_data.rx_claim d
+inner join laad_data.products p on d.product_id=p.product_id 
+where mkted_prod_nm in ('PREDNISONE','ESBRIET','OFEV','PIRFENIDONE')and svc_dt between '20170701' and '20180630')
+group by age_group
+order by age_group;
+
+
+
+select count(distinct patient_id) from laad_data.dx_claim  
+where diag_cd in ('51631','J84112') and svc_dt between '20170701' and '20180630';
+
+select count(distinct patient_id) from laad_data.dx_claim  
+where diag_cd in ('51631','J84112') and svc_dt between '20180701' and '20190630';
+
+select count(distinct patient_id)  from laad_data.rx_claim d
+inner join laad_data.products p on d.product_id=p.product_id 
+where mkted_prod_nm in ('ESBRIET','OFEV','PIRFENIDONE')and svc_dt between '20170701' and '20180630'
+and patient_id in (select distinct patient_id from laad_data.dx_claim  
+where diag_cd in ('51631','J84112') and svc_dt between '20170701' and '20180630');
+
+
+select count(distinct patient_id)  from laad_data.rx_claim d
+inner join laad_data.products p on d.product_id=p.product_id 
+where mkted_prod_nm in ('ESBRIET','OFEV','PIRFENIDONE')and svc_dt between '20180701' and '20190630'
+and patient_id in (select distinct patient_id from laad_data.dx_claim  
+where diag_cd in ('51631','J84112') and svc_dt between '20180701' and '20190630');
+
+--Newly Treated 
+select count(distinct patient_id) from 
+(select distinct patient_id,min(svc_dt) as svc_dt  from laad_data.rx_claim d
+inner join laad_data.products p on d.product_id=p.product_id 
+where mkted_prod_nm in ('ESBRIET','OFEV','PIRFENIDONE')
+and patient_id in (select distinct patient_id from laad_data.dx_claim  
+where diag_cd in ('51631','J84112') and svc_dt between '20170701' and '20180630')
+group by patient_id)
+where svc_dt between '20170701' and '20180630';
+
+
+select count(distinct patient_id) from 
+(select distinct patient_id,min(svc_dt) as svc_dt  from laad_data.rx_claim d
+inner join laad_data.products p on d.product_id=p.product_id 
+where mkted_prod_nm in ('ESBRIET','OFEV','PIRFENIDONE')
+and patient_id in (select distinct patient_id from laad_data.dx_claim  
+where diag_cd in ('51631','J84112') and svc_dt between '20170701' and '20180630')
+group by patient_id)
+where  svc_dt between '20180701' and '20190630';
+
+
+
+select count(distinct patient_id) from (
+select distinct patient_id,min(svc_dt) as svc_dt  from laad_data.dx_claim  
+where diag_cd in ('51631','J84112') group by patient_id)
+where svc_dt between '20170701' and '20180630';
+
+select count(distinct patient_id) from (
+select distinct patient_id,min(svc_dt) as svc_dt  from laad_data.dx_claim  
+where diag_cd in ('51631','J84112') group by patient_id)
+where svc_dt between '20170701' and '20180630';
+
+select count(distinct patient_id) from (
+select distinct patient_id,min(svc_dt) as svc_dt  from laad_data.dx_claim  
+where diag_cd in ('51631','J84112') group by patient_id)
+where  svc_dt between '20180701' and '20190630';
+
+select count(distinct patient_id)  from laad_data.rx_claim d
+inner join laad_data.products p on d.product_id=p.product_id 
+where mkted_prod_nm in ('PREDNISONE','ESBRIET','OFEV','PIRFENIDONE')and svc_dt between '20170701' and '20180630'
+and patient_id in (select distinct patient_id from laad_data.dx_claim  
+where diag_cd in ('51631','J84112') and svc_dt between '20170701' and '20180630');
+
+
+select count(distinct patient_id)  from laad_data.rx_claim d
+inner join laad_data.products p on d.product_id=p.product_id 
+where mkted_prod_nm in ('PREDNISONE','ESBRIET','OFEV','PIRFENIDONE')and svc_dt between '20180701' and '20190630'
+and patient_id in (select distinct patient_id from laad_data.dx_claim  
+where diag_cd in ('51631','J84112') and svc_dt between '20180701' and '20190630');

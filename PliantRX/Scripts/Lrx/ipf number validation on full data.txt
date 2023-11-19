@@ -1,0 +1,128 @@
+select * from (
+select patient_id,extract(year from min(svc_dt::date)) as min_svc_dt from laad_data.dx_claim  
+where diag_cd in ('51631','J84112')
+group by patient_id
+) pivot (count(distinct patient_id) for min_svc_dt in (2013,2014,2015,2016,2017,2018,2019,2020,2021,2022));
+
+select * from (
+select patient_id,extract(year from min(svc_dt::date)) as min_svc_dt  from laad_data.rx_claim d
+inner join laad_data.products p on d.product_id=p.product_id 
+where  p.mkted_prod_nm in ('ESBRIET','OFEV','PIRFENIDONE')
+group by patient_id
+) pivot (count(distinct patient_id) for min_svc_dt in (2013,2014,2015,2016,2017,2018,2019,2020,2021,2022));
+
+select * from (
+select c.patient_id,extract(year from min(c.svc_dt::date)) as min_svc_dt  from 
+laad_data.rx_claim d
+inner join laad_data.products p on d.product_id=p.product_id 
+inner join laad_data.dx_claim c on c.patient_id =d.patient_id 
+where  p.mkted_prod_nm in ('ESBRIET','OFEV','PIRFENIDONE') 
+and diag_cd in ('51631','J84112')
+group by c.patient_id
+) pivot (count(distinct patient_id) for min_svc_dt in (2013,2014,2015,2016,2017,2018,2019,2020,2021,2022));
+
+select p.mkted_prod_nm,count(distinct d.patient_id) from laad_data.rx_claim d
+inner join laad_data.products p on d.product_id=p.product_id 
+where 
+p.mkted_prod_nm in ('ESBRIET','OFEV','PIRFENIDONE')
+group by p.mkted_prod_nm order by mkted_prod_nm;
+
+select p.mkted_prod_nm,count(distinct d.patient_id) from laad_data.rx_claim d
+inner join laad_data.products p on d.product_id=p.product_id 
+where patient_id in (select patient_id from laad_data.dx_claim  where diag_cd in ('51631','J84112'))
+and p.mkted_prod_nm in ('ESBRIET','OFEV','PIRFENIDONE')
+group by p.mkted_prod_nm order by mkted_prod_nm;
+
+select * from (
+select p.mkted_prod_nm,d.patient_id,extract(year from min(svc_dt::date)) as min_svc_dt  from laad_data.rx_claim d
+inner join laad_data.products p on d.product_id=p.product_id 
+where p.mkted_prod_nm in ('ESBRIET','OFEV','PIRFENIDONE')
+group by p.mkted_prod_nm,d.patient_id order by mkted_prod_nm
+) pivot (count(distinct patient_id) for min_svc_dt in (2013,2014,2015,2016,2017,2018,2019,2020,2021,2022));
+
+select * from (
+select p.mkted_prod_nm,d.patient_id,extract(year from min(svc_dt::date)) as min_svc_dt  from laad_data.rx_claim d
+inner join laad_data.products p on d.product_id=p.product_id 
+where p.mkted_prod_nm in ('ESBRIET','OFEV','PIRFENIDONE') and 
+patient_id in (select patient_id from laad_data.dx_claim  where diag_cd in ('51631','J84112'))
+group by p.mkted_prod_nm,d.patient_id order by mkted_prod_nm
+) pivot (count(distinct patient_id) for min_svc_dt in (2013,2014,2015,2016,2017,2018,2019,2020,2021,2022));
+
+select p.mkted_prod_nm,count(distinct d.patient_id) from laad_data.rx_claim d
+inner join laad_data.products p on d.product_id=p.product_id 
+where patient_id in (select patient_id from laad_data.dx_claim  where diag_cd in ('51631','J84112'))
+and p.mkted_prod_nm in ('ESBRIET','OFEV','PIRFENIDONE')
+group by p.mkted_prod_nm order by mkted_prod_nm;
+
+select distinct len(patient_id) , count( distinct patient_id) from laad_data.dx_claim group by 1;
+select distinct len(patient_id) , count( distinct patient_id) from laad_data.rx_claim group by 1;
+select * from laad_data.products p where mkted_prod_nm like '%ESBRIET%';
+select * from laad_data.products p where mkted_prod_nm like '%OFEV%';
+select * from laad_data.products p where mkted_prod_nm like '%PIRFENIDONE%';
+select * from laad_data."procedure" where prc_short_desc  ilike '%OFEV%' limit 10;
+
+select count(distinct patient_id) from laad_data.dx_claim  
+where diag_cd in ('51631','J84112');
+
+select count(distinct patient_id) from (
+select distinct patient_id from laad_data.dx_claim  
+where diag_cd in ('51631','J84112')
+group by patient_id having count(patient_id||svc_dt)>1);
+
+select count(distinct d.patient_id)  from laad_data.rx_claim d
+inner join laad_data.products p on d.product_id=p.product_id 
+where  p.mkted_prod_nm in ('ESBRIET','OFEV','PIRFENIDONE');
+
+select count(distinct d.patient_id)  from 
+laad_data.rx_claim d
+inner join laad_data.products p on d.product_id=p.product_id 
+inner join laad_data.dx_claim c on c.patient_id =d.patient_id 
+where  p.mkted_prod_nm in ('ESBRIET','OFEV','PIRFENIDONE') 
+and diag_cd in ('51631','J84112');
+
+select count(distinct patient_id) from (
+select distinct d.patient_id  from 
+laad_data.rx_claim d
+inner join laad_data.products p on d.product_id=p.product_id 
+where  p.mkted_prod_nm in ('ESBRIET','OFEV','PIRFENIDONE')
+union 
+select distinct patient_id from laad_data.dx_claim  
+where diag_cd in ('51631','J84112'));
+
+
+
+select p.mkted_prod_nm,count(distinct d.patient_id) from laad_data.rx_claim d
+inner join laad_data.products p on d.product_id=p.product_id 
+where 
+p.mkted_prod_nm in ('ESBRIET','OFEV','PIRFENIDONE')
+group by p.mkted_prod_nm order by mkted_prod_nm;
+
+
+select p.mkted_prod_nm,count(distinct d.patient_id) from laad_data.rx_claim d
+inner join laad_data.products p on d.product_id=p.product_id 
+where  
+p.mkted_prod_nm in ('ESBRIET','OFEV','PIRFENIDONE')
+and patient_id in (select patient_id from laad_data.dx_claim dc where   diag_cd in ('51631','J84112'))
+group by p.mkted_prod_nm order by mkted_prod_nm;
+
+
+
+-------Diag wise patient count-----
+with patientList as (
+select distinct d.patient_id  from 
+laad_data.rx_claim d
+inner join laad_data.products p on d.product_id=p.product_id 
+where   
+p.mkted_prod_nm in ('ESBRIET','OFEV','PIRFENIDONE') 
+except
+select distinct d.patient_id  from 
+laad_data.rx_claim d
+inner join laad_data.products p on d.product_id=p.product_id 
+inner join laad_data.dx_claim c on c.patient_id =d.patient_id 
+where   
+p.mkted_prod_nm in ('ESBRIET','OFEV','PIRFENIDONE') 
+and diag_cd in ('51631','J84112'))
+select dc.diag_cd,diag_short_desc,count(distinct patient_id) from laad_data.dx_claim dc 
+inner join laad_data.diagnosis d2 on dc.diag_cd =d2.diag_cd 
+where patient_id in (select distinct patient_id from patientList)
+group by dc.diag_cd,diag_short_desc
