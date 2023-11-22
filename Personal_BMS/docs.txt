@@ -1,0 +1,14 @@
+Hi Team,
+Below are the new/updated AWS S3 Access keys and Secret Access Keys. Please update your keys immediately before using S3 buckets.
+IAM ROLE	S3 Bucket Path	AWS Access Keys 	AWS Secret Access Keys
+IAM3-AmerUsIdpPrvdrUser-1ROO07N5XXKOL. 	/bms-comm-prod-amer/cdw/us/010-land/bmsidp/	AKIA6NFYJGZI3GKVLPGL	79HQ55ztJ41twZxyhv+7KdWzGi8vR9PDcoqhu4ju
+IAMSMART-ExtBiaPrvdrUser-1CTYZA2TP5D53 	/bms-prod-info-center/smart/010-land/bms_bia_idp	AKIA6NFYJGZIYLTVCL4P	Ik3YCCydO8Lq8AQcLrOr6Ab6OCa2Dj0OWwd/qbc2
+AmerUsUserOncoAnalyticsUser-Z7QE2343TEIJ	/bms-comm-prod-amer/adhoc/us/public/users/schreced/	AKIAIVUQJXA4ZZZ7U4SA	etgH8ffsu0hwIs+u5tlTDPH8i3e4Hn1UdYIjdP0c
+AmerUsUserOncoAnalyticsUser-Z7QE2343TEIJ	/bms-comm-prod-amer/cdw/us/020-stage/ims/patient-claims/weekly/TEMP-Dennis/	AKIAIVUQJXA4ZZZ7U4SA	etgH8ffsu0hwIs+u5tlTDPH8i3e4Hn1UdYIjdP0c
+AmerUsUserOncoAnalyticsUser-Z7QE2343TEIJ	/bms-comm-prod-amer/cdw/us/020-stage/shs/patient-claims/weekly/TEMP-Dennis/	AKIAIVUQJXA4ZZZ7U4SA	etgH8ffsu0hwIs+u5tlTDPH8i3e4Hn1UdYIjdP0c
+
+Let me know if you have any questions.
+Please secure these keys and do not share with anyone.
+
+Regards,
+Rachana Late

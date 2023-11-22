@@ -1,0 +1,16 @@
+with cte_hacker as (
+select hacker_id,submission_date,count(submission_id) as submission from submissions
+where hacker_id in (
+select hacker_id from submissions
+group by hacker_id,submission_date having count(submission_id)>0 )   
+group by hacker_id,submission_date
+),
+cte_hacker_one as (select a.hacker_id,a.submission_date,a.submission,c.name from cte_hacker a
+inner join (
+select submission_date,max(submission) as max_submission from cte_hacker group by submission_date
+) b on a.submission_date=b.submission_date and a.submission=b.max_submission
+inner join hackers c on a.hacker_id=c.hacker_id
+)
+select a.hacker_id,a.submission_date,a.submission,a.name From cte_hacker_one a
+inner join (select submission_date,submission,min(hacker_id) hacker_id from cte_hacker_one group by submission_date,submission) b on a.submission_date=b.submission_date and  a.submission=b.submission and a.hacker_id=b.hacker_id
+order by a.submission_date;
