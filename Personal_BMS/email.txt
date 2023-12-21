@@ -1,0 +1,31 @@
+Hi Xuqui,
+
+Welcome to the Auto team!
+
+Please find the below project link for future reference. check each link if you don’t have access, I will raise access on RSAM. You will find the dev shell launcher that is very helpful to install project related software.
+Check everything first on your side otherwise I will guide you everything over a call.
+
+
+PL/SQL Code bucket-
+https://bitbucketdc-cluster07.jpmchase.net/projects/RFTCARI/repos/cari_proforma_database/browse
+
+Pyspark/Databricks bucket-
+https://bitbucketdc-cluster07.jpmchase.net/projects/RFTCARI/repos/cari-auto-proforma/browse
+
+Proforma architecture confluence page-
+https://confluence.prod.aws.jpmchase.net/confluence/pages/viewpage.action?spaceKey=FINANCEPROFITABILITY&title=Proforma+Documentation
+
+Proforma GOS runbook confluence page-
+https://confluence.prod.aws.jpmchase.net/confluence/display/FINANCEPROFITABILITY/Proforma+GOS+Run+Book
+
+Nifi dev access link-
+https://fdi-nifi-eks.dev.aws.jpmchase.net/nifi/
+
+Databricks dev access link-
+https://odessa-dev-us-east-1-ws.cloud.databricks.com/?o=4005016256535000#
+
+Jira Board for auto team-
+https://jiradc-ccb-cluster02.prod.aws.jpmchase.net/secure/RapidBoard.jspa?rapidView=26499&projectKey=FDIDATAMART&view=detail&selectedIssue=FDIDATAMART-1481&quickFilter=146954
+
+Thanks,
+Vinod Singh
