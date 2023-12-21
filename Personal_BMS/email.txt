@@ -2,8 +2,7 @@ Hi Xuqui,
 
 Welcome to the Auto team!
 
-Please find the below project link for future reference. check each link if you don’t have access, I will raise access on RSAM. You will find the dev shell launcher that is very helpful to install project related software.
-Check everything first on your side otherwise I will guide you everything over a call.
+For your future reference, here are the project links. Please check each link, and if you encounter any access issues, let me know, and I will raise access on RSAM. Additionally, you'll find the dev shell launcher, which is very helpful for installing project-related software.
 
 
 PL/SQL Code bucket-
@@ -26,6 +25,11 @@ https://odessa-dev-us-east-1-ws.cloud.databricks.com/?o=4005016256535000#
 
 Jira Board for auto team-
 https://jiradc-ccb-cluster02.prod.aws.jpmchase.net/secure/RapidBoard.jspa?rapidView=26499&projectKey=FDIDATAMART&view=detail&selectedIssue=FDIDATAMART-1481&quickFilter=146954
+
+If you face any difficulties or have questions, feel free to reach out. I'm here to help!
+
+Thanks,
+Vinod Singh
 
 Thanks,
 Vinod Singh
